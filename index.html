@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOUKA | Pi Investment Tracker</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#101329;
+ color:#fff;
+}
+header{
+ padding:25px 18px;
+ background:linear-gradient(135deg,#442079,#171b42);
+ text-align:center;
+}
+.logo{font-size:34px;font-weight:bold;color:#ffd45a}
+header p{color:#ddd}
+main{max-width:650px;margin:auto;padding:18px}
+.card{
+ background:#1c2140;
+ padding:20px;
+ border-radius:15px;
+ margin-bottom:16px;
+ border:1px solid #34395e;
+}
+h2{font-size:18px;color:#ffd45a;margin-top:0}
+.balance{font-size:32px;font-weight:bold;margin:15px 0}
+input{
+ width:100%;padding:13px;border-radius:9px;
+ border:1px solid #555;background:#101329;
+ color:white;margin:8px 0;
+}
+button{
+ background:#f5c94d;color:#24163c;
+ padding:13px;border:0;border-radius:9px;
+ font-weight:bold;width:100%;cursor:pointer;
+}
+.item{
+ padding:12px;background:#292e50;
+ border-radius:9px;margin-top:10px;
+}
+small{color:#b9bed6}
+footer{text-align:center;color:#aaa;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">π MOUKA</div>
+ <p>Pi Ecosystem & Investment Tracker</p>
+</header>
+
+<main>
+
+<div class="card">
+ <h2>محفظتي الشخصية</h2>
+ <small>أدخل رصيد Pi يدوياً للمتابعة</small>
+ <div class="balance"><span id="balance">0</span> π</div>
+ <input type="number" id="amount" placeholder="أدخل رصيدك من Pi" min="0" step="any">
+ <button onclick="saveBalance()">حفظ الرصيد</button>
+</div>
+
+<div class="card">
+ <h2>قائمة متابعة المشاريع</h2>
+ <input id="project" placeholder="اسم المشروع">
+ <input id="note" placeholder="ملاحظاتك عن المشروع">
+ <button onclick="addProject()">إضافة مشروع</button>
+ <div id="projects"></div>
+</div>
+
+<div class="card">
+ <h2>معلومات استثمارية</h2>
+ <div class="item">
+  <strong>ما هي Pi Network؟</strong>
+  <p>مشروع للعملة الرقمية يهدف إلى بناء منظومة تطبيقات وخدمات.</p>
+ </div>
+ <div class="item">
+  <strong>إدارة المخاطر</strong>
+  <p>لا تستثمر أموالاً لا تستطيع تحمل خسارتها. لا توجد أرباح مضمونة.</p>
+ </div>
+ <div class="item">
+  <strong>متابعة المشاريع</strong>
+  <p>تحقق من مصداقية المشروع وفريقه وخدماته قبل التعامل معه.</p>
+ </div>
+</div>
+
+<div class="card">
+ <h2>حول MOUKA</h2>
+ <p>MOUKA منصة تعليمية لمتابعة منظومة Pi وإدارة قائمة المشاريع والرصيد الشخصي.</p>
+ <small>لا نقدم نصائح مالية ولا نحتفظ بأموال المستخدمين.</small>
+</div>
+
+</main>
+
+<footer>
+MOUKA © 2026 - Educational Pi Tracker
+</footer>
+
+<script>
+function saveBalance(){
+ const value=document.getElementById('amount').value;
+ if(value==="" || Number(value)<0)return;
+ document.getElementById('balance').textContent=Number(value).toLocaleString();
+ localStorage.setItem('moukaBalance',value);
+}
+function addProject(){
+ const name=document.getElementById('project').value.trim();
+ const note=document.getElementById('note').value.trim();
+ if(!name)return;
+ const div=document.createElement('div');
+ div.className='item';
+ const title=document.createElement('strong');
+ title.textContent=name;
+ const description=document.createElement('p');
+ description.textContent=note;
+ div.append(title,description);
+ document.getElementById('projects').appendChild(div);
+ document.getElementById('project').value='';
+ document.getElementById('note').value='';
+}
+const saved=localStorage.getItem('moukaBalance');
+if(saved!==null){
+ document.getElementById('balance').textContent=Number(saved).toLocaleString();
+ document.getElementById('amount').value=saved;
+}
+</script>
+</body>
+</html>
